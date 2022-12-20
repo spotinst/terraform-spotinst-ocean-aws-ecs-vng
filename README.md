@@ -1,40 +1,55 @@
-# [NAME] Terraform Module
+# Spot Ocean ECS Launchspec Terraform Module
 
-Short description of the module.
+## Prerequisites
 
-## Table of Contents
-
-- [Prerequisites](#prerequisites)
-- [Usage](#usage)
-- [Examples](#examples)
-- [Requirements](#requirements)
-- [Providers](#providers)
-- [Modules](#modules)
-- [Resources](#resources)
-- [Inputs](#inputs)
-- [Outputs](#outputs)
-- [Documentation](#documentation)
-- [Getting Help](#getting-help)
-- [Community](#community)
-- [Contributing](#contributing)
-- [License](#license)
+* Have an ECS cluster created and integrated with Ocean on Spot.io
+* Spot Account and API Token
 
 ## Usage
-
 ```hcl
-module "[NAME]" {
-  source = "spotinst/[NAME]/spotinst"
+### Create Ocean ECS Cluster ###
+module "ocean_ecs" {
+  source = "spotinst/ocean-aws-ecs/spotinst"
 
-  ...
+  cluster_name                    = "ECS-Workshop"
+  desired_capacity                = 0
+  region                          = "us-west-2"
+  subnet_ids                      = ["subnet-123456789, subnet-123456789, subnet-123456789, subnet-123456789"]
+  security_group_ids              = ["sg-123456789"]
+  iam_instance_profile            = "arn:aws:iam::123456789:instance-profile/ecsInstanceRole"
+
+  tags                            = {CreatedBy = "terraform"}
+}
+
+### Create Ocean ECS Launchspec ###
+module "ocean_ecs_launchspec" {
+  source = "spotinst/ocean-aws-ecs-vng/spotinst"
+
+  name                            = "VNG1"
+  ocean_id                        = module.ocean_ecs.ocean_id
+  attributes                      = {Test = "example"}
+
+  tags                            = {CreatedBy = "terraform"}
+}
+
+### Outputs ###
+output "ocean_id" {
+  value = module.ocean_ecs.ocean_id
+}
+output "ocean_launchspec_id" {
+  value = module.ocean_ecs_launchspec.launchspec_id
 }
 ```
 
-## Examples
+## Providers
 
-- [Basic](examples/basic)
+| Name | Version   |
+|------|-----------|
+| spotinst | >= 1.78.0 |
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Modules
+* `ocean-aws-ecs` - Creates Ocean Cluster [Doc](https://registry.terraform.io/modules/spotinst/ocean-aws-ecs/spotinst/latest)
+* `ocean-aws-ecs-vng` - (Optional) Add custom virtual node groups
 
 ## Documentation
 
@@ -55,9 +70,8 @@ We use GitHub issues for tracking bugs and feature requests. Please use these co
 
 ## Contributing
 
-Please see the [contribution guidelines](.github/CONTRIBUTING.md).
+Please see the [contribution guidelines](CONTRIBUTING.md).
 
 ## License
 
 Code is licensed under the [Apache License 2.0](LICENSE).
-
