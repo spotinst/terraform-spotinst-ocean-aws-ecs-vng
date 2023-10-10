@@ -47,34 +47,44 @@ variable "subnet_ids" {
   default     = null
   description = "One or more security group ids"
 }
+variable "http_tokens" {
+  type        = string
+  default     = null
+  description = "Determines if a signed token is required or not. Valid values: optional or required."
+}
+variable "http_put_response_hop_limit" {
+  type        = number
+  default     = null
+  description = "An integer from 1 through 64. The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further the instance metadata requests can travel."
+}
 ###################
 
 ## Block Device Mappings ##
 variable "block_device_mappings" {
-  type 								= object({
-    device_name						= string
-    delete_on_termination 			= bool
-    encrypted 						= bool
-    iops 							= number
-    kms_key_id 						= string
-    snapshot_id 					= string
-    volume_type 					= string
-    volume_size						= number
-    throughput						= number
-    no_device 						= string
+  type = object({
+    device_name           = string
+    delete_on_termination = bool
+    encrypted             = bool
+    iops                  = number
+    kms_key_id            = string
+    snapshot_id           = string
+    volume_type           = string
+    volume_size           = number
+    throughput            = number
+    no_device             = string
   })
-  default 							= null
-  description 						= "Block Device Mapping Object"
+  default     = null
+  description = "Block Device Mapping Object"
 }
 
 variable "dynamic_volume_size" {
-  type 					  = object({
-    base_size						= number
-    resource 						= string
-    size_per_resource_unit			= number
+  type = object({
+    base_size              = number
+    resource               = string
+    size_per_resource_unit = number
   })
-  default 							= null
-  description 						= "dynamic_volume_size Object"
+  default     = null
+  description = "dynamic_volume_size Object"
 }
 ##################
 
@@ -105,14 +115,14 @@ variable "num_of_units" {
 
 ## Scheduled Task ##
 variable "scheduling_task" {
-  type 				    = object({
-    is_enabled 		    = bool
-    cron_expression 	= list(string)
-    task_type 	        = string
-    num_of_units 		= number
-    cpu_per_unit 		= number
-    memory_per_unit     = number
+  type = object({
+    is_enabled      = bool
+    cron_expression = list(string)
+    task_type       = string
+    num_of_units    = number
+    cpu_per_unit    = number
+    memory_per_unit = number
   })
-  default 				= null
-  description 			= "Scheduled Task Block"
+  default     = null
+  description = "Scheduled Task Block"
 }
