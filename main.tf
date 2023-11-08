@@ -41,6 +41,9 @@ resource "spotinst_ocean_ecs_launch_spec" "ocean_ecs_launchspec" {
     num_of_units    = var.num_of_units
   }
 
+  strategy {
+    spot_percentage = var.spot_percentage
+  }
 
   dynamic "scheduling_task" {
     for_each = var.scheduling_task != null ? [var.scheduling_task] : []

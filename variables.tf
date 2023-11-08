@@ -126,3 +126,11 @@ variable "scheduling_task" {
   default     = null
   description = "Scheduled Task Block"
 }
+##################
+
+## Strategy ##
+variable "spot_percentage" {
+  type        = string
+  default     = null
+  description = "(Optional- if not using spot_percentege under ocean strategy) When set, Ocean will proactively try to maintain as close as possible to the percentage of Spot instances out of all the Virtual Node Group instances."
+}
