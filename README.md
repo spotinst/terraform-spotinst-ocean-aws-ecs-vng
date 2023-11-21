@@ -17,7 +17,7 @@ module "ocean_ecs" {
   subnet_ids                      = ["subnet-123456789, subnet-123456789, subnet-123456789, subnet-123456789"]
   security_group_ids              = ["sg-123456789"]
   iam_instance_profile            = "arn:aws:iam::123456789:instance-profile/ecsInstanceRole"
-  images                          = [{image_id="ami-123456"},{image_id="ami-67890"}]
+  
   tags                            = {CreatedBy = "terraform"}
 }
 
@@ -28,7 +28,7 @@ module "ocean_ecs_launchspec" {
   name                            = "VNG1"
   ocean_id                        = module.ocean_ecs.ocean_id
   attributes                      = {Test = "example"}
-
+  images                          = [{image_id="ami-123456"},{image_id="ami-67890"}]
   tags                            = {CreatedBy = "terraform"}
 }
 
