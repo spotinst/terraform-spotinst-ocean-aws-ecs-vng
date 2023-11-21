@@ -134,3 +134,12 @@ variable "spot_percentage" {
   default     = null
   description = "(Optional- if not using spot_percentege under ocean strategy) When set, Ocean will proactively try to maintain as close as possible to the percentage of Spot instances out of all the Virtual Node Group instances."
 }
+
+## Images ##
+variable "images" {
+  type = list(object({
+    image_id   = string
+  }))
+  default     = null
+  description = "Array of objects (Image object, containing the id of the image used to launch instances.)"
+}
